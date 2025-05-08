@@ -28,12 +28,12 @@ function App() {
   const [message, setMessage] = useState([]);
   const [messageName, setMessageName] = useState([]);
   const [noteNumber, setNoteNumber] = useState([]);
-  const [noteName, setNoteName] = useState([]);
+  //const [noteName, setNoteName] = useState([]);
   const [velocity, setVelocity] = useState([]);
 
   //--- Processed values.
   const [octaveName, setOctaveName] = useState([]);
-  const [noteNames, setNoteNames] = useState([]);
+  //const [noteNames, setNoteNames] = useState([]);
   const [noteCount, setNoteCount] = useState([]);
   const [chordNotes, setChordNotes] = useState([]);
   const [chordName, setChordName] = useState([]);
@@ -46,6 +46,7 @@ function App() {
   const [release, setRelease] = useState(0);
 
   const [instrumentName, setInstrumentName] = useState("instrumentNameSelector");
+  const [noteName, setNoteName] = useState("instrumentNameSelector");
 
   //--- Create a Set to hold the pressed notes.
   let pressedKeys = new Set();
@@ -83,6 +84,21 @@ function App() {
     "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"
   ];
 
+  const noteNames = [
+   {label: "C", valueOf: "C" },
+    {label: "C#", valueOf: "C#" },
+    {label: "D", valueOf: "D" },
+    {label: "D#", valueOf: "D#" },      
+    {label: "E", valueOf: "E" },
+    {label: "F", valueOf: "F" },
+    {label: "F#", valueOf: "F#" },
+    {label: "G", valueOf: "G" },
+    {label: "G#", valueOf: "G#" },
+    {label: "A", valueOf: "A" },
+    {label: "A#", valueOf: "A#" },
+    {label: "B", valueOf: "B" }
+  ];
+
   const instrumentNames = [
     {label: "Synth", valueOf: "Synth"},
     {label: "Sampler", valueOf: "Sampler"},
@@ -104,8 +120,12 @@ function App() {
     console.log("audio is ready");
   });
 
-  const handleSwitchChange = (value) => {
+  const handleInstrumentSwitchChange = (value) => {
     setInstrumentName(value); // only one active at a time
+  };
+
+  const handleNoteSwitchChange = (value) => {
+    setNoteName(value); // only one active at a time
   };
 
   //--- Request MIDI access on component mount.
@@ -327,7 +347,7 @@ function App() {
                 </InputGroup>
 
               </Card.Body>
-            </Card>
+            </Card>        
           </Col>
 
           <Col>
@@ -342,7 +362,7 @@ function App() {
                     id={`switch-${opt.valueOf}`}
                     label={opt.label}
                     checked={instrumentName === opt.valueOf}
-                    onChange={() => handleSwitchChange(opt.valueOf)}
+                    onChange={() => handleInstrumentSwitchChange(opt.valueOf)}
                     className="mb-2"
                   />
                 ))}
@@ -350,7 +370,26 @@ function App() {
               </Card.Body>
             </Card>
           </Col>
+          <Col>
+            <Card>
+              <Card.Header className='center'>Note</Card.Header>
+              <Card.Body>
 
+              {noteNames.map((opt, idx) => (
+                  <Form.Check
+                    key={idx}
+                    type="switch"
+                    id={`switch-${opt.valueOf}`}
+                    label={opt.label}
+                    checked={noteName === opt.valueOf}
+                    onChange={() => handleNoteSwitchChange(opt.valueOf)}
+                    className="mb-2"
+                  />
+                ))}
+
+              </Card.Body>
+            </Card>
+          </Col>
 
         </Row>
 
